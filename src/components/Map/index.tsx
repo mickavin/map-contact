@@ -1,37 +1,63 @@
-import { useEffect } from 'react';
-import { MAPBOX_KEY } from 'constants/keys';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { useEffect, memo, useCallback } from 'react';
+import generateMap, { generateMarker } from 'utils/map';
+import geocodingApi from 'utils/geocoding';
 
 interface MapProps {
-
+    openModal: any;
+    selectAddress: any;
+    chooseInfo: any;
+    contacts: any;
 }
-const Map = (props: MapProps) => {
+
+const Map = memo((props: MapProps) => {
+    const {selectAddress, openModal, contacts, chooseInfo} = props
+    const searchAddress = useCallback(async (coords: any) => {
+        try {
+           const response = await geocodingApi(coords)
+            const geocoding = await response.json()
+
+            if(geocoding.features?.length > 0){
+                const address = geocoding.features[0].place_name
+                selectAddress({
+                    address,
+                    lat: coords.lat,
+                    lng: coords.lng
+                })
+                openModal(true)
+            }
+        } catch(e){
+            console.error(e)
+        }
+    }, [openModal, selectAddress])
+    
     useEffect(() => {
-        mapboxgl.accessToken = MAPBOX_KEY
-        const map = new mapboxgl.Map({
-          container: 'map', 
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: [-74.5, 40], 
-          zoom: 9, 
-          projection: {
-            name: 'globe'
-          } 
-          });
+        const map = generateMap()
         map.resize();
         map.on('click', (e) => {
-            console.log(`A click event has occurred at ${e.lngLat}`);
+            searchAddress(e.lngLat)
         });
+        const markers = contacts.map((item: any) => generateMarker(map, item))
+        const markersListeners = markers.map((item: any) => {
+            item.getElement().addEventListener('click', () => {
+                const marker = item.getLngLat()
+                const contact = contacts.find((it: any) => it.lat === marker.lat && it.lng === marker.lng)
+                chooseInfo(contact)
+            });
+        })
         return () =>{ 
             map.off('click', (e) => {
-                console.log(`A click event has occurred at ${e.lngLat}`);
+                searchAddress(e.lngLat)
             });
+            markers.map((item: any) => item.getElement().removeEventListener('click', () => {
+                chooseInfo(item)
+            }))
         }
     },[])
+
 
     return (
         <div className="h-4/6 lg:w-3/4 lg:h-auto mx-auto" id='map'/>
     )
-}
+})
 
 export default Map;

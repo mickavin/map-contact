@@ -1,0 +1,1 @@
+export const TYPES = ['entreprise', 'particulier', 'collectivité']

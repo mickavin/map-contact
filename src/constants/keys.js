@@ -1,1 +1,0 @@
-export const MAPBOX_KEY = "YOUR_API_KEY"
