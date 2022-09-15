@@ -11,12 +11,13 @@ interface ModalProps {
     description?: string;
     type?: string;
     addContact: any;
+    updateContact: any;
     item: any;
 }
 
 export default memo((props: ModalProps) => {
-    const { close, addContact, item} = props
-    const { name = '',  description = '', type = '' } = item
+    const { close, addContact, updateContact, item} = props
+    const { name = '',  description = '', type = '', id = Date.now() } = item
     const inputs = useMemo(() => {
         return {
             name: null,
@@ -55,18 +56,24 @@ export default memo((props: ModalProps) => {
         const values = {
             name: nameValue,
             type: typeValue,
-            description: descriptionValue
+            description: descriptionValue,
         }
         let validation = new Validator(values, rules);
         if(validation.passes()){
-            addContact(values)
+            if(isEditing){
+                updateContact({...values, id})
+                close(false)
+            } else {
+                addContact(values)
+                close(false)
+            }
         } else {
             setErrors({
                 ...inputs,
                 ...validation.errors.all()
              })
         }
-    }, [descriptionValue, nameValue, typeValue, Validator])
+    }, [descriptionValue, nameValue, id, typeValue, isEditing,Validator])
 
     return (
         <> 

@@ -4,7 +4,7 @@ import Sidebar from 'components/Sidebar';
 import Modal from 'components/Modal';
 import { useSelector, useDispatch } from 'react-redux'
 import { iterableObject } from 'utils/iterable';
-import { addContact } from 'store/actions/contactAction';
+import { addContact, updateContact } from 'store/actions/contactAction';
 
 function Main() {
   const contacts = useSelector((state: any) => state?.contacts?.contacts) || []
@@ -22,7 +22,14 @@ function Main() {
     dispatch(addContact(contact))
   }, [address])
 
-  console.log(informations)
+  const updateAContact = useCallback((informations: any) => {
+    const contact = {
+        ...iterableObject(informations),
+        ...iterableObject(address),
+    }
+    dispatch(updateContact(contact))
+  }, [address])
+
   return (
     <div className="App lg:flex lg:h-screen">
       <Map 
@@ -37,6 +44,7 @@ function Main() {
       {
         showModal &&
         <Modal 
+        updateContact={updateAContact}
         item={informations}
         close={setOpenModal} 
         addContact={addToContacts}/>
