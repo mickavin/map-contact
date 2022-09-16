@@ -2,10 +2,15 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { MAPBOX_KEY } from 'constants/keys';
 
+declare global {
+  interface Window {
+    Mapbox: any;
+  }
+}
 
 const map = () => {
   mapboxgl.accessToken = MAPBOX_KEY
-  return new mapboxgl.Map({
+  const map = new mapboxgl.Map({
     container: 'map', 
     style: 'mapbox://styles/mapbox/streets-v11',
     center: [-74.5, 40], 
@@ -14,6 +19,9 @@ const map = () => {
       name: 'globe'
     } 
   });
+  
+  window.Mapbox = map
+  return map
 }
 
 export const generateMarker = (map: any, item: any) => 

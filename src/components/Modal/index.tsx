@@ -17,7 +17,7 @@ interface ModalProps {
 
 export default memo((props: ModalProps) => {
     const { close, addContact, updateContact, item} = props
-    const { name = '',  description = '', type = '', id = Date.now() } = item
+    const { name = '',  description = '', type = '' } = item
     const inputs = useMemo(() => {
         return {
             name: null,
@@ -37,7 +37,7 @@ export default memo((props: ModalProps) => {
             description: ['required', 'max:200'],
             type: ['required', { 'in': TYPES }]
         }
-    }, [TYPES])
+    }, [])
 
     useEffect(() => {
         let messages = Validator.getMessages('fr');
@@ -61,7 +61,7 @@ export default memo((props: ModalProps) => {
         let validation = new Validator(values, rules);
         if(validation.passes()){
             if(isEditing){
-                updateContact({...values, id})
+                updateContact({...item,...values})
                 close(false)
             } else {
                 addContact(values)
@@ -73,7 +73,7 @@ export default memo((props: ModalProps) => {
                 ...validation.errors.all()
              })
         }
-    }, [descriptionValue, nameValue, id, typeValue, isEditing,Validator])
+    }, [descriptionValue, nameValue, item, typeValue, isEditing, addContact, updateContact, close, inputs,rules, setErrors])
 
     return (
         <> 

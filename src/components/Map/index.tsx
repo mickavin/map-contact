@@ -38,7 +38,7 @@ const Map = memo((props: MapProps) => {
         });
         const markers = contacts.map((item: any) => generateMarker(map, item))
         markers.map((item: any) => {
-            item.getElement().addEventListener('click', () => {
+            return item.getElement().addEventListener('click', () => {
                 const marker = item.getLngLat()
                 const contact = contacts.find((it: any) => it.lat === marker.lat && it.lng === marker.lng)
                 chooseInfo(contact)
@@ -49,14 +49,14 @@ const Map = memo((props: MapProps) => {
                 searchAddress(e.lngLat)
             });
             markers.map((item: any) => {
-                item.getElement().removeEventListener('click', () => {
+                return item.getElement().removeEventListener('click', () => {
                     const marker = item.getLngLat()
                     const contact = contacts.find((it: any) => it.lat === marker.lat && it.lng === marker.lng)
                     chooseInfo(contact)
                 });
             })
         }
-    },[])
+    },[contacts])
 
 
     return (
