@@ -19,6 +19,11 @@ function Main() {
     }
   },[])
 
+  const resetInfo = useCallback(() => {
+    setInformations({})
+    setAddress('')
+  }, [setInformations, setAddress])
+
   const addToContacts = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
@@ -26,18 +31,16 @@ function Main() {
         id: Date.now()
     }
     dispatch(addContact(contact))
-    setInformations({})
-    setAddress('')
-  }, [address, dispatch, setInformations, setAddress])
+    resetInfo()
+  }, [address, dispatch, setInformations, setAddress, resetInfo])
 
   const updateAContact = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
     }
     dispatch(updateContact(contact))
-    setInformations({})
-    setAddress('')
-  }, [dispatch, setInformations, setAddress])
+    resetInfo()
+  }, [dispatch, setInformations, setAddress, resetInfo])
 
   const removeAContact = useCallback((informations: any) => {
     const contact = {
@@ -45,6 +48,11 @@ function Main() {
     }
     dispatch(removeContact(contact))
   }, [dispatch])
+
+  const closeModal = useCallback(() => {
+    setOpenModal(false)
+    resetInfo()
+  }, [setOpenModal, resetInfo])
 
   return (
     <div className="App lg:flex lg:h-screen">
@@ -63,7 +71,7 @@ function Main() {
         <Modal 
         updateContact={updateAContact}
         item={informations}
-        close={setOpenModal} 
+        closeModal={closeModal} 
         addContact={addToContacts}/>
       }
     </div>

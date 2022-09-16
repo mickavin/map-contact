@@ -8,7 +8,7 @@ interface ContactState {
 const initialState : ContactState = { contacts: [{
     id: 1,
     name: "John Doe",
-    description: "",
+    description: "Client",
     type: "particulier",
     lat: 40.05026719450453,
     lng: -74.24182128906294,
@@ -17,7 +17,7 @@ const initialState : ContactState = { contacts: [{
   {
     id: 2,
     name: "Burger King",
-    description: "",
+    description: "Entreprise de Fast food",
     type: "entreprise",
     lat: 40.03575869755147,
     lng: -74.65243530273521,

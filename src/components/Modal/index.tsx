@@ -6,7 +6,7 @@ import { TYPES } from 'constants/types';
 import Validator from 'validatorjs';
 
 interface ModalProps {
-    close: any;
+    closeModal: any;
     name?: string;
     description?: string;
     type?: string;
@@ -16,7 +16,7 @@ interface ModalProps {
 }
 
 export default memo((props: ModalProps) => {
-    const { close, addContact, updateContact, item} = props
+    const { closeModal, addContact, updateContact, item} = props
     const { name = '',  description = '', type = '' } = item
     const inputs = useMemo(() => {
         return {
@@ -62,10 +62,10 @@ export default memo((props: ModalProps) => {
         if(validation.passes()){
             if(isEditing){
                 updateContact({...item,...values})
-                close(false)
+                closeModal()
             } else {
                 addContact(values)
-                close(false)
+                closeModal()
             }
         } else {
             setErrors({
@@ -73,12 +73,12 @@ export default memo((props: ModalProps) => {
                 ...validation.errors.all()
              })
         }
-    }, [descriptionValue, nameValue, item, typeValue, isEditing, addContact, updateContact, close, inputs,rules, setErrors])
+    }, [descriptionValue, nameValue, item, typeValue, isEditing, addContact, updateContact, closeModal, inputs,rules, setErrors])
 
     return (
         <> 
             <div className='fixed bottom-0 top-0 right-0 left-0 bg-opaque-grey flex justify-center items-center z-30'>
-                <div onClick={() => close(false)} className='fixed bottom-0 top-0 right-0 left-0 z-40'/>
+                <div onClick={() => closeModal()} className='fixed bottom-0 top-0 right-0 left-0 z-40'/>
                 <div className='bg-slate-50 max-h-screen max-w-screen w-130 h-80 overflow-auto z-50'>
                     <form onSubmit={onSubmit} className='p-5'>
                         <TextInput label='Nom' value={nameValue} onChange={onChangeName} errors={errors['name']}/>
