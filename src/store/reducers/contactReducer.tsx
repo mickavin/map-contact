@@ -41,10 +41,17 @@ function contactReducer(state = initialState, action: AnyAction) {
       return nextState || state
     case UPDATE_CONTACT:
       if (contactIndex !== -1) {
-        state.contacts.splice(contactIndex, 1, action.value) 
+        let contacts = [...state.contacts]
+        contacts.splice(contactIndex, 1, action.value) 
         nextState = {
           ...state,
-          contacts: state.contacts
+          contacts
+        }
+      }
+      else {
+        nextState = {
+          ...state,
+          contacts: [...state.contacts, action.value]
         }
       }
       return nextState || state

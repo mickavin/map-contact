@@ -26,14 +26,18 @@ function Main() {
         id: Date.now()
     }
     dispatch(addContact(contact))
-  }, [address, dispatch])
+    setInformations({})
+    setAddress('')
+  }, [address, dispatch, setInformations, setAddress])
 
   const updateAContact = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
     }
     dispatch(updateContact(contact))
-  }, [dispatch])
+    setInformations({})
+    setAddress('')
+  }, [dispatch, setInformations, setAddress])
 
   const removeAContact = useCallback((informations: any) => {
     const contact = {

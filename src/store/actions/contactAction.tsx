@@ -4,38 +4,27 @@ export const REMOVE_CONTACT = "REMOVE_CONTACT";
 export const REMOVE_ALL_CONTACTS = "REMOVE_ALL_CONTACTS";
 export const RESET = "RESET";
 
-
-type Contact = {
-    id: number;
-    name: string,
-    description: string,
-    type: string,
-    lat: number,
-    lng: number,
-    address: string;
-}
-
 export function reset() {
   return {
     type: RESET
   }
 }
 
-export function addContact(value: Contact) {
+export function addContact(value: any) {
   return {
     type: ADD_CONTACT,
     value
   }
 }
 
-export function updateContact(value: Contact) {
+export function updateContact(value: any) {
   return {
     type: UPDATE_CONTACT,
     value
   }
 }
 
-export function removeContact(value: Contact) {
+export function removeContact(value: any) {
   return {
     type: REMOVE_CONTACT,
     value
