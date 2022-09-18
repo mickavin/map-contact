@@ -27,10 +27,7 @@ const map = () => {
 
 // génére un point sur une carte
 export const generateMarker = (map: any, item: any) => 
-  new mapboxgl.Marker({
-    draggable: true,
-    clickTolerance: 0
-  })
+  new mapboxgl.Marker()
     .setLngLat([item.lng, item.lat])
     .addTo(map)
 
