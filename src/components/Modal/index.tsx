@@ -51,6 +51,7 @@ export default memo((props: ModalProps) => {
         }
     }, [])
 
+    // Valide les données entrées, ajoute un contact ou modifie un contact sélectionné
     const onSubmit = useCallback((event: any) => {
         event.preventDefault()
         const values = {

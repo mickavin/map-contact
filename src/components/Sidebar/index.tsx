@@ -10,6 +10,7 @@ interface SidebarProps {
 const Sidebar = (props: SidebarProps) => {
   const {openModal, chooseInfo, contacts, removeContact} = props
 
+  // Enregistre les informations du contact sélectionné et ouvre le modal
   const chooseContact = useCallback((info: any) => {
     chooseInfo(info)
     openModal(true)

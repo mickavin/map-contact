@@ -11,6 +11,7 @@ const ListItem = memo((props: ListItemProps) => {
   const { item, chooseInfo, removeContact } = props
   const {type, name} = item
 
+  // supprime un contact sélectionné
   const removeThisContact = useCallback(() => {
     if(typeof window != 'undefined' && window.confirm('Êtes-vous sûre de vouloir supprimer ce contact ?')){
       removeContact(item)

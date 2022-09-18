@@ -8,6 +8,7 @@ declare global {
   }
 }
 
+// génére une carte
 const map = () => {
   mapboxgl.accessToken = MAPBOX_KEY
   const map = new mapboxgl.Map({
@@ -24,6 +25,7 @@ const map = () => {
   return map
 }
 
+// génére un point sur une carte
 export const generateMarker = (map: any, item: any) => 
   new mapboxgl.Marker({
     draggable: true,

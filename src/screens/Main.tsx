@@ -13,6 +13,7 @@ function Main() {
   const [informations, setInformations] = useState({} as any)
 
   useEffect(() => {
+    // Initialise la liste des contacts à la première utilisation
     if(!localStorage.getItem('isInit')){
       dispatch(reset())
       localStorage.setItem('isInit', 'true')
@@ -24,6 +25,8 @@ function Main() {
     setAddress('')
   }, [setInformations, setAddress])
 
+
+  //Ajoute un contact et réinitialise les informations 
   const addToContacts = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
@@ -34,6 +37,7 @@ function Main() {
     resetInfo()
   }, [address, dispatch, setInformations, setAddress, resetInfo])
 
+  //Modifie un contact et réinitialise les informations 
   const updateAContact = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
@@ -42,6 +46,7 @@ function Main() {
     resetInfo()
   }, [dispatch, setInformations, setAddress, resetInfo])
 
+  //Supprime un contact et réinitialise les informations
   const removeAContact = useCallback((informations: any) => {
     const contact = {
         ...iterableObject(informations),
@@ -49,6 +54,7 @@ function Main() {
     dispatch(removeContact(contact))
   }, [dispatch])
 
+  //Ferme et réinitialise les informations
   const closeModal = useCallback(() => {
     setOpenModal(false)
     resetInfo()
